@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import type { Policy } from './types/policy'
+import { Button } from './components/Button'
 
 function App() {
   const [policies, setPolicies] = useState<Policy[]>([])
@@ -48,6 +49,10 @@ function App() {
           ))}
         </ul> 
       )}
+
+      <Button>knapp</Button>
+      <Button variant='secondary'>knapp 2 </Button>
+      <Button variant="ghost" loading loadingText='Hämtar'>loading</Button>
     </>
   )
 }

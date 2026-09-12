@@ -1,3 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  /* bg colors */
+  --color-blue-100: #ebf0fa;
+  --color-blue-600: #262C52;
+  --color-blue-700: #090c33;
+}
+
 :root {
   --helvetica: helvetica, 'Arial', sans-serif;
 }
