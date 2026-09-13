@@ -2,7 +2,7 @@ import z from "zod"
 
 export type PolicyStatus = 'active' | 'inactive'
 
-export interface Policy {
+export type Policy = {
   policyDescription: string
   policyNumber: number
   policyStartDate: string
@@ -11,12 +11,19 @@ export interface Policy {
   yearlyPrice: number
 }
 
-export interface Filters {
+export type Filters = {
   productNames: string[]
   statuses: PolicyStatus[]
 }
 
-export const EMPTY_FILTERS: Filters = { productNames: [], statuses: [] }
+export type Page<T> = {
+  items: T[]
+  page: number
+  totalPages: number
+  from: number
+  to: number
+  total: number
+}
 
 export const policyStatusSchema = z
 .string()
