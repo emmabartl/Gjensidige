@@ -1,20 +1,25 @@
-import type { ComponentPropsWithoutRef } from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
 const button = tv({
   slots: {
-    base: 'h-9 px-3 py-2.5 relative inline-flex items-center justify-center rounded-sm text-md font-medium tracking-wide transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50',
+    base: [
+      'relative inline-flex items-center justify-between w-fit shrink-0 h-9 px-3.5 gap-6',
+      'rounded-sm text-sm font-medium tracking-wider',
+      'transition duration-200 ease-out active:scale-[0.98] active:duration-75',
+      'focus-visible:outline-2 focus-visible:outline-offset-2',
+      'cursor-pointer disabled:pointer-events-none disabled:opacity-50',
+    ],
     label: 'inline-flex items-center gap-2',
     spinner: 'size-4 absolute animate-spin',
   },
   variants: {
     variant: {
       primary: { base: 'bg-blue-700 text-white hover:bg-blue-600' },
-      secondary: { base: 'bg-white text-blue-700 border-2' }, // TODO: add hover state
+      secondary: { base: 'bg-white text-blue-700 border-2 hover:opacity-75' },
       ghost: { base: 'bg-transparent text-slate-900 hover:bg-slate-100' },
     },
     loading: {
-      true: { base: 'cursor-wait', label: 'invisible' },
+      true: { base: 'cursor-wait' },
     },
   },
   defaultVariants: { variant: 'primary' },
@@ -25,15 +30,8 @@ VariantProps<typeof button> & {
   loadingText?: string
 }
 
-/* type Variant = 'primary' | 'secondary' | 'ghost'
-
-interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
-  variant?: Variant
-  loading?: boolean
-} */
-
 export function Button({ 
-  variant, /* = 'primary', */ 
+  variant,
   loading = false, 
   loadingText = 'Loading',
   type = 'button',
