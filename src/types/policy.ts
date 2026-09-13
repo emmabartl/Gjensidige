@@ -11,6 +11,13 @@ export interface Policy {
   yearlyPrice: number
 }
 
+export interface Filters {
+  productNames: string[]
+  statuses: PolicyStatus[]
+}
+
+export const EMPTY_FILTERS: Filters = { productNames: [], statuses: [] }
+
 export const policyStatusSchema = z
 .string()
 .transform((s) => s.toLowerCase())
