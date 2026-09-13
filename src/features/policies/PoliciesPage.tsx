@@ -1,0 +1,54 @@
+import { Button } from "../../components/Button"
+import { usePolicies } from "../../hooks/usePolicies"
+import { FilterPanel } from "./FilterPanel"
+import { PolicyCard, PolicyRow } from "./PolicyCard"
+
+export function PoliciesPage() {
+  const { policies, isLoading, error } = usePolicies()
+
+  const productNames = [...new Set(policies.map(p => p.productName))]
+
+  const activePolicies = policies
+    .filter(p => p.policyStatus === 'active')
+    .map(p => p.productName)
+
+    return (
+      <main className="max-w-300 mx-auto px-4 py-5">
+        <h1>Mina försäkringar</h1>
+  
+        {isLoading && (
+          <p>Hämtar dina försäkringar</p>
+        )}
+  
+        {error && (
+          <p role="alert">{error}</p>
+        )}
+  
+        {policies.length === 0 && (
+          <>
+            <p>Du har inga försäkringar hos oss just nu</p>
+            <button>Se våra produkter</button>
+          </>
+        )}
+        <div className="flex gap-8">
+          <div className="flex-1 flex flex-col gap-4">
+            <div className="flex items-center justify-between flex-wrap">
+              <Button variant="secondary">Filtrera</Button>
+            </div>
+            {policies.length > 0 && (
+              <ul className="flex flex-col gap-4">
+                {policies.map(policy => (
+                  <li key={policy.policyNumber}>
+                    <PolicyCard policy={policy} />
+                  </li>
+                  )
+                )}
+              </ul>  
+            )}
+        </div>
+
+        <FilterPanel productNames={productNames} />
+        </div>
+      </main>
+    )
+}
