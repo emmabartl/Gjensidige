@@ -1,4 +1,4 @@
-import { tv, type VariantProps } from "tailwind-variants"
+import { tv } from "tailwind-variants"
 
 const pageButton = tv({
   slots: {
@@ -26,7 +26,6 @@ type PaginationProps = {
 export function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
   const styles = pageButton()
 
-  /* if (totalPages <= 1) return null */
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
@@ -36,7 +35,7 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
       >
-        <span>&lsaquo;</span>
+        <span className="text-4xl">&lsaquo;</span>
       </button>
 
       {pages.map((p) => (
@@ -54,7 +53,7 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
       >
-        &rsaquo;
+        <span className="text-4xl">&rsaquo;</span>
       </button>
     </nav>
   )
