@@ -9,12 +9,17 @@ export function PoliciesPage() {
   const { policies, isLoading, error } = usePolicies()
 
   const [appliedFilters, setAppliedFilters] = useState<Filters>(EMPTY_FILTERS)
-  /* const [isPanelOpen, setIsPanelOpen] = useState(false) */
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   const productNames = [...new Set(policies.map(p => p.productName))]
 
+  function closePanel() {
+    setIsPanelOpen(false)
+  }
+
   function handleApplyFilters(filters: Filters) {
     setAppliedFilters(filters)
+    closePanel()
   }
 
   console.log('appliedFilters:', appliedFilters)
@@ -40,7 +45,7 @@ export function PoliciesPage() {
       <div className="flex gap-8">
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex items-center justify-between flex-wrap">
-            <Button variant="secondary">Filtrera</Button>
+            <Button variant="secondary" onClick={() => (isPanelOpen ? closePanel() : setIsPanelOpen(true))}>Filtrera</Button>
           </div>
           {policies.length > 0 && (
             <ul className="flex flex-col gap-4">
@@ -48,13 +53,18 @@ export function PoliciesPage() {
                 <li key={policy.policyNumber}>
                   <PolicyCard policy={policy} />
                 </li>
-                )
-              )}
+              ))}
             </ul>  
           )}
-      </div>
-
-      <FilterPanel productNames={productNames} filters={appliedFilters} onApplyFilters={handleApplyFilters} />
+        </div>
+        {isPanelOpen && (
+          <FilterPanel 
+            productNames={productNames} 
+            filters={appliedFilters} 
+            onApplyFilters={handleApplyFilters}
+            onClose={closePanel} 
+          />
+        )}  
       </div>
     </main>
   )

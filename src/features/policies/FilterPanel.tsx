@@ -18,6 +18,7 @@ interface FilterPanelProps {
   productNames: string[]
   filters: Filters
   onApplyFilters: (filters: Filters) => void
+  onClose: () => void
 }
 
 const STATUS_OPTIONS = [
@@ -25,7 +26,7 @@ const STATUS_OPTIONS = [
   { value: 'inactive', label: 'Avslutade försäkringar' },
 ] as const satisfies readonly { value: PolicyStatus; label: string }[]
 
-export function FilterPanel({ productNames, filters, onApplyFilters }: FilterPanelProps) {
+export function FilterPanel({ productNames, filters, onApplyFilters, onClose }: FilterPanelProps) {
   const [draft, setDraft] = useState<Filters>(filters)
   const styles = filterPanel()
 
@@ -53,7 +54,7 @@ export function FilterPanel({ productNames, filters, onApplyFilters }: FilterPan
     <aside className={styles.root()}>
       <div className={styles.header()}>
         <h2 className={styles.legend()}>Typ av försäkring</h2>
-        <Button variant="ghost" className={styles.close()}>&times;</Button>
+        <Button variant="ghost" className={styles.close()} onClick={onClose}>&times;</Button>
       </div>
       <fieldset className={styles.group()}>
         <legend className="hidden">Typ av försäkring</legend>
