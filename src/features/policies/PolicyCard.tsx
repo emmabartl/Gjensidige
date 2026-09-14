@@ -1,16 +1,16 @@
 import { tv } from "tailwind-variants"
 import type { Policy } from "../../types/policy"
-import { formatMonthlyPrice } from "../../utils/format"
+import { formatYearlyPrice } from "../../utils/format"
 
 const card = tv({
   slots: {
-    root: 'overflow-hidden rounded-lg border border-line border-blue-200 shadow-sm text-blue-700 tracking-wide',
+    root: 'overflow-hidden rounded-lg border border-line border-blue-200 shadow-sm',
     header: 'flex flex-col items-start px-6 py-5 gap-1 bg-blue-100 border-b border-blue-200',
     badge: 'mb-2 px-3 py-1 text-xs font-semibold rounded-full bg-error-100 border border-error-300 text-error-300',
     title: 'text-lg font-bold',
-    subtitle: 'text-base text-blue-600',
+    subtitle: 'text-blue-600',
     body: 'px-6 divide-y divide-line divide-blue-100',
-    row: 'grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] justify-items-start gap-4 py-4',
+    row: 'grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] justify-items-start gap-1 md:gap-4 py-4',
     label: 'text-sm font-semibold',
     value: 'text-sm text-blue-600 tracking-wider',
   },
@@ -39,7 +39,7 @@ export function PolicyCard({ policy, className, ...props }: PolicyCardProps) {
       <div className={styles.body()}>
         <PolicyRow styles={styles} label="Startdatum" value={policy.policyStartDate} />
         <PolicyRow styles={styles} label="Försäkringsnummer" value={policy.policyNumber} />
-        <PolicyRow styles={styles} label="Pris per månad" value={formatMonthlyPrice(policy.yearlyPrice)} />
+        <PolicyRow styles={styles} label="Pris per månad" value={formatYearlyPrice(policy.yearlyPrice)} />
       </div>
     </div>
   )
@@ -53,5 +53,3 @@ function PolicyRow({ styles, label, value }: { styles: CardSlots, label: string,
     </div>
   )
 }
-
-/* value={formatMonthlyPrice(policy.yearlyPrice)}  */
