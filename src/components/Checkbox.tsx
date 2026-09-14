@@ -8,11 +8,12 @@ const checkbox = tv({
     box: [
       'w-5 h-5 m-0 appearance-none rounded-sm border-2 border-blue-700 text-white transition-colors cursor-pointer',
       'peer-checked:bg-blue-700 peer-checked:[&>svg]:opacity-100',
-      'peer-checked:outline-2 peer-checked:outline-offset-2', 'peer-checked:outline-purple',
+      'peer-checked:outline-2 peer-checked:outline-offset-2 peer-checked:outline-purple',
+      'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-purple',
       'peer-disabled:opacity-50 peer-disabled:cursor-not-allowed'
     ],
     icon: 'w-4 h-4 text-yellow opacity-0 transition-opacity',
-    label:'text-sm text-blue-700 cursor-pointer tracking-wide',
+    label:'text-sm cursor-pointer',
   },
 })
 
