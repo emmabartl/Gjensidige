@@ -8,9 +8,18 @@ export function usePolicies() {
   const [policies, setPolicies] = useState<Policy[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryCount, setRetryCount] = useState(0)
+
+  function retry() {
+    setError(null)
+    setIsLoading(true)
+    setRetryCount((c) => c + 1)
+  }
 
   useEffect(() => {
-    fetch(`${BASE_URL}/policies/List`)
+    const controller = new AbortController()
+
+    fetch(`${BASE_URL}/policies/List`, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`Request failed with ${res.status}`)
         return res.json()
@@ -24,10 +33,13 @@ export function usePolicies() {
         setPolicies(result.data)
       })
       .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return
         setError(err instanceof Error ? err.message : "Something went wrong")
       })
-      .finally(() => setIsLoading(false))
-  }, [])
+      .finally(() => { if (!controller.signal.aborted) setIsLoading(false) })
 
-  return { policies, isLoading, error }
+    return () => controller.abort()
+  }, [retryCount])
+
+  return { policies, isLoading, error, retry }
 }
