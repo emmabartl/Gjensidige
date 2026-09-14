@@ -1,16 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../components/Button"
 import { Checkbox } from "../../components/Checkbox"
 import type { Filters, PolicyStatus } from "../../types/policy"
 import { tv } from "tailwind-variants"
+import { STATUS_OPTIONS } from "../../utils/filtering"
 
 const filterPanel = tv({
   slots: {
-    root: 'flex flex-col pl-6 py-2 pr-2 border rounded-xs border-blue-200 bg-blue-100',
+    root: 'flex flex-col self-start pt-2 pr-2 pb-6 pl-6 border rounded-xs border-blue-200 bg-blue-100',
     header: 'flex justify-between',
-    close: 'text-xl cursor-pointer',
+    close: 'text-xl cursor-pointer hover:bg-transparent hover:scale-[1.2]',
     group: 'flex flex-col gap-2.5 pr-12 mb-5',
-    legend:'my-2 text-base font-semibold text-blue-700 tracking-wide',
+    legend:'text-left my-2 text-base font-semibold',
   },
 })
 
@@ -21,14 +22,13 @@ interface FilterPanelProps {
   onClose: () => void
 }
 
-const STATUS_OPTIONS = [
-  { value: 'active', label: 'Aktiva försäkringar' },
-  { value: 'inactive', label: 'Avslutade försäkringar' },
-] as const satisfies readonly { value: PolicyStatus; label: string }[]
-
 export function FilterPanel({ productNames, filters, onApplyFilters, onClose }: FilterPanelProps) {
   const [draft, setDraft] = useState<Filters>(filters)
   const styles = filterPanel()
+
+  useEffect(() => {
+    setDraft(filters)
+  }, [filters])
 
   function toggleProduct (name: string) {
     setDraft((prev) => ({
@@ -48,13 +48,11 @@ export function FilterPanel({ productNames, filters, onApplyFilters, onClose }: 
     }))
   }
 
-  console.log('draft:', draft)
-
   return (
     <aside className={styles.root()}>
       <div className={styles.header()}>
         <h2 className={styles.legend()}>Typ av försäkring</h2>
-        <Button variant="ghost" className={styles.close()} onClick={onClose}>&times;</Button>
+        <Button variant="ghost" className={styles.close()} onClick={onClose} aria-label="Stäng">&times;</Button>
       </div>
       <fieldset className={styles.group()}>
         <legend className="hidden">Typ av försäkring</legend>
