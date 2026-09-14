@@ -1,4 +1,4 @@
-import type { Filters, Page, Policy, PolicyStatus } from "../types/policy"
+import type { Filters, Policy, PolicyStatus } from "../types/policy"
 
 export const STATUS_OPTIONS = [
   { value: 'active', label: 'Aktiva försäkringar' },
@@ -7,6 +7,7 @@ export const STATUS_OPTIONS = [
 
 export const EMPTY_FILTERS: Filters = { productNames: [], statuses: [] }
 
+// empty array means "no filter applied" (show all), not "match nothing"
 export function filterPolicies(policies: Policy[], filters: Filters): Policy[] {
   return policies.filter(
     (policy) =>
